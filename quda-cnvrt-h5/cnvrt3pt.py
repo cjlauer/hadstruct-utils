@@ -125,12 +125,14 @@ def pconv(tsink, proj, flav):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("FNAME", type=str)
-    parser.add_argument("-o", "--output", metavar="F", type=str,
-                        help="output file name (default: FNAME.mom)")
+    parser.add_argument("-o", "--output", metavar="D", type=str,
+                        help="output directory name (default: ./)")
     args = parser.parse_args()
     fname = args.FNAME
     output = args.output
-
+    if output is None:
+        output = "./"
+    
     with h5py.File(fname, "r") as fp:
         for top in fp:
             if "conf" in top:
@@ -146,7 +148,7 @@ def main():
                               "P4": -1,
                               "P5": -1,
                               "P6": -1}[pr]
-                    fn = "ft_thrp_%s_gN90a0p2_aN50a0p5_%s_%s.%s.h5" % (spos, pr, ts, fl)
+                    fn = "%s/ft_thrp_%s_gN90a0p2_aN50a0p5_%s_%s.%s.h5" % (output, spos, pr, ts, fl)
                     print(fn)
                     with h5py.File(fn, "w") as hf:
                         grp = hf.require_group("thrp/%s/%s/%s/%s/" % (spos, pr, ts, fl))
