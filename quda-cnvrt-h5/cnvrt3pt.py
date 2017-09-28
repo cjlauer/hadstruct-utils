@@ -118,7 +118,7 @@ deriv_ops = {
 
 def pconv(tsink, proj, flav):
     ts = "dt%2d" % int(tsink.split("_")[1])
-    pr = {"G4": "P0", "G5G1": "P4",  "G5G2": "P5",  "G5G3": "P6"}[proj.split("_")[1]]
+    pr = {"G4": "P0", "G5G1": "P4",  "G5G2": "P5",  "G5G3": "P6", "G5G123": "P3"}[proj.split("_")[1]]
     fl = {"up": "dn", "down": "up"}[flav]
     return ts,pr,fl
 
@@ -147,7 +147,8 @@ def main():
                     prsign = {"P0": +1,
                               "P4": -1,
                               "P5": -1,
-                              "P6": -1}[pr]
+                              "P6": -1,
+                              "P3": -1}[pr]
                     fn = "%s/ft_thrp_%s_gN90a0p2_aN50a0p5_%s_%s.%s.h5" % (output, spos, pr, ts, fl)
                     print(fn)
                     with h5py.File(fn, "w") as hf:
